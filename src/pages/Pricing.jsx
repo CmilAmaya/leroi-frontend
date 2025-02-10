@@ -13,6 +13,8 @@ function Pricing() {
     const [totalCost, setTotalCost] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
+    const [showTermsModal, setShowTermsModal] = useState(false);
+    const authToken = localStorage.getItem("token");
 
     const fetchCreditsCost = async (amount) => {
         const creditsData = { amount };
@@ -67,7 +69,7 @@ function Pricing() {
             [name]: type === 'checkbox' ? checked : value,
         }));
         if (name === 'credits') {
-            const totalCost = await fetchCreditsCost(value); // Llama a la función reutilizable
+            const totalCost = await fetchCreditsCost(value);
             if (totalCost !== null) {
                 setTotalCost(totalCost);
             }
@@ -80,19 +82,18 @@ function Pricing() {
         if (!validateForm()) return;
 
         setIsSubmitting(true);
-        const paymentData = {
-            amount: formData.credits
-        }
         try {
-            // Simular redirección a una plataforma de pago
             toast.success('Redirigiendo a la plataforma de pago...');
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/create-payment`, {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: JSON.stringify(paymentData)
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/create-payment/${encodeURIComponent(formData.credits)}`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
             if (response.ok) {
                 const data = await response.json();
@@ -102,7 +103,6 @@ function Pricing() {
             } else {
                 console.error('Error al generar el enlace de compra');
             }
-            //setTimeout(() => navigate('/payment-platform'), 2000);
         } catch (error) {
             console.error('Error en la operación:', error);
             setError('Ocurrió un error al procesar la operación.');
@@ -128,17 +128,23 @@ function Pricing() {
             <div className="pricing-box-p">
                 <h1 className="pricing-title-p">Comprar Créditos</h1>
                 <form onSubmit={handleSubmit}>
+
                     <div className="form-group">
                         <label>Cantidad de créditos</label>
-                        <input
-                            type="number"
-                            name="credits"
-                            placeholder="Ejemplo: 10"
-                            value={formData.credits}
-                            onChange={handleChange}
-                            min="1"
-                            required
-                        />
+                        <div className="credit-options">
+                            <select
+                                id="credits"
+                                name="credits"
+                                required
+                                value={formData.credits}
+                                onChange={handleChange}
+                            >
+                                <option value="" disabled>Elige una opción</option>
+                                <option value="250">250 Créditos</option>
+                                <option value="750">750 Créditos</option>
+                                <option value="1500">1500 Créditos</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div className="form-group">
@@ -146,6 +152,7 @@ function Pricing() {
                         <input
                             type="text"
                             value={`$${totalCost} USD`}
+                            default=""
                             readOnly
                             className="readonly-input"
                         />
@@ -158,7 +165,10 @@ function Pricing() {
                             checked={formData.acceptTerms}
                             onChange={handleChange}
                         />
-                        <label>Acepto los términos y condiciones</label>
+                        <span>Acepto los </span>
+                        <span className="terms-link" onClick={() => setShowTermsModal(true)}>
+                            términos y condiciones
+                        </span>
                     </div>
 
                     <div className="button-container">
@@ -172,8 +182,29 @@ function Pricing() {
                     </div>
                     {error && <p className="error-message">{error}</p>}
                 </form>
+            {showTermsModal && (
+                <div className="verification-modal">
+                    <div className="modal-content">
+                        <h2>Términos y condiciones</h2>
+                        <p className="terms-text">
+                        Al realizar un pago por medio de la pasarela de pago de Leroi, el usuario acepta que no se realizarán 
+                        devoluciones bajo ninguna circunstancia. Leroi no se hace responsable por el uso que el usuario dé a 
+                        los créditos adquiridos ni por cualquier transacción realizada a través de la plataforma. 
+                        Toda responsabilidad de pago, incluyendo cargos, montos adeudados y cualquier otro compromiso financiero, 
+                        recae exclusivamente en el usuario, quien deberá asegurarse de cumplir con sus obligaciones de pago de 
+                        manera adecuada.</p>
+                        <button 
+                        onClick={() => setShowTermsModal(false)}
+                        className="verify-button"
+                        >
+                        Cerrar
+                        </button>
+                    </div>
+                </div>
+            )}
             </div>
         </div>
+            
     );
 }
 

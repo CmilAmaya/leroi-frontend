@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import archivo from '../assets/archivo.png';
+import anim_tutorial from '../assets/Tutorial_CrearRoadmap.mp4';
+import tutorial_logo from '../assets/Tutorial_logo.png';
 import { toast } from 'react-hot-toast';
 import '../styles/roadmap.css';
 
 function Roadmap() {
   const [fileUploaded, setFileUploaded] = useState(null);
   const [previewFile, setPreviewFile] = useState(null);  
+  const [helpModal, setHelpModal] = useState(false);
   const [base64, setBase64] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [topicsModal, setTopicsModal] = useState(false);
@@ -163,6 +166,24 @@ function Roadmap() {
             {isLoading ? 'Generando tu ruta de aprendizaje...' : 'Generar ruta de aprendizaje'}
         </button>
       </div>
+
+      <div className="help-icon" onClick={() => setHelpModal(true)}>
+        <img src={tutorial_logo} alt="Ayuda" className="tutorial-icon" />
+      </div>
+
+      {/* Modal para el tutorial en video */}
+      {helpModal && (
+        <div className="preview-modal">
+          <div className="preview-content">
+            <video width="100%" height="100%" controls autoPlay muted>
+              <source src={anim_tutorial} type="video/mp4"/>
+              Tu navegador no soporta la reproducción de videos.
+            </video>
+            <button onClick={() => setHelpModal(false)}>Cerrar</button>
+          </div>
+        </div>
+      )}
+
       {previewFile && base64 && (
         <div className="preview-modal">
           <div className="preview-content">

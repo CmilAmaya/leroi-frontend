@@ -277,3 +277,21 @@
     flex-direction: column;
   }
 }
+
+.help-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.tutorial-icon {
+  width: 60px;
+  height: 60px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.tutorial-icon:hover {
+  transform: scale(1.1);
+}

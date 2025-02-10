@@ -7,7 +7,7 @@ import feature3 from "../assets/feature-3.svg";
 import feature4 from "../assets/feature-4.svg";
 import gif from "../assets/gif.gif";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";  
+import { Link } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
 
 function Home() {
@@ -41,22 +41,21 @@ function Home() {
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {
-        const element = document.querySelector(hash);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-        }
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
   }, []);
-
   return (
     <>
       {/* Hook*/}
       <section id="tutorial" className="hook">
         <div className="hook-content">
-          <img 
-            src={gif} 
-            alt="Tutorial Placeholder" 
-            className="hook-gif" 
+          <img
+            src={gif}
+            alt="Tutorial Placeholder"
+            className="hook-gif"
           />
           <h1>
           <Fade delay={200} cascade damping={0.02}>
@@ -72,9 +71,9 @@ function Home() {
       {/* Features*/}
       <section className="features">
         <h2>
-        <Fade delay={200} cascade damping={0.02}>
-          ¿Quién es Leroi?
-        </Fade>
+          <Fade delay={200} cascade damping={0.02}>
+            ¿Quién es Leroi?
+          </Fade>
         </h2>
         <div className="features-container">
           <div className="feature-card">
@@ -83,7 +82,7 @@ function Home() {
             </div>
             <h3>Asistente de aprendizaje</h3>
             <p>
-            Leroi automatiza la creación de planes de estudio, reduciendo significativamente el tiempo dedicado a planificar qué y cómo estudiar.
+              Leroi automatiza la creación de planes de estudio, reduciendo significativamente el tiempo dedicado a planificar qué y cómo estudiar.
             </p>
           </div>
           <div className="feature-card">
@@ -92,7 +91,7 @@ function Home() {
             </div>
             <h3>Organizador</h3>
             <p>
-            Leroi identifica y organiza subtemas jerárquicamente, proporcionando un camino lógico y progresivo para el aprendizaje.
+              Leroi identifica y organiza subtemas jerárquicamente, proporcionando un camino lógico y progresivo para el aprendizaje.
             </p>
           </div>
           <div className="feature-card">
@@ -101,7 +100,7 @@ function Home() {
             </div>
             <h3>Personalizador experto</h3>
             <p>
-            Leroi permite a los usuarios cargar sus propios documentos (libros, artículos, apuntes) y generar rutas de aprendizaje adaptadas a ese contenido específico.
+              Leroi permite a los usuarios cargar sus propios documentos (libros, artículos, apuntes) y generar rutas de aprendizaje adaptadas a ese contenido específico.
             </p>
           </div>
           <div className="feature-card">
@@ -119,7 +118,7 @@ function Home() {
       <section id= "credits" className="pricing">
         <h2>
           <Fade delay={200} cascade damping={0.02}>
-          Adquiere créditos
+            Adquiere créditos
           </Fade>
         </h2>
         <div className="pricing-container">
@@ -131,7 +130,7 @@ function Home() {
               <li>Procesa hasta 5 documentos </li>
               <li>Descarga tus roadmaps</li>
             </ul>
-            <Link to="/pricing" className="cta-button">Adquiere este plan</Link> 
+            <Link to="/pricing" state={{ credits: 250 }} className="cta-button">Adquiere este plan</Link>
           </div>
           <div className="pricing-card">
             <h3>Intermedio</h3>
@@ -141,7 +140,7 @@ function Home() {
               <li>Ideal para estudiantes </li>
               <li>Prueba funciones avanzadas</li>
             </ul>
-            <Link to="/pricing" className="cta-button">Adquiere este plan</Link> 
+            <Link to="/pricing" state={{ credits: 750 }} className="cta-button">Adquiere este plan</Link>
           </div>
           <div className="pricing-card">
             <h3>Avanzado</h3>
@@ -151,7 +150,7 @@ function Home() {
               <li>Procesa documentos grandes</li>
               <li>Prueba funciones experimentales</li>
             </ul>
-            <Link to="/pricing" className="cta-button">Adquiere este plan</Link> 
+            <Link to="/pricing" state={{ credits: 1500 }} className="cta-button">Adquiere este plan</Link>
           </div>
         </div>
       </section>

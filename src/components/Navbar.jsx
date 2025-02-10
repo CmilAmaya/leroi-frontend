@@ -9,7 +9,7 @@ import "../styles/navbar.css";
 Navbar.defaultProps = {
   t: {
     nav: {
-      tutorial: "Tutorial",
+      // tutorial: "Tutorial",
       about: "Quienes somos",
       credits: "Créditos",
       faq: "Preguntas frecuentes",
@@ -25,7 +25,7 @@ Navbar.defaultProps = {
 Navbar.propTypes = {
   t: PropTypes.shape({
     nav: PropTypes.shape({
-      tutorial: PropTypes.string,
+      // tutorial: PropTypes.string,
       about: PropTypes.string,
       credits: PropTypes.string,
       faq: PropTypes.string,
@@ -93,7 +93,7 @@ function Navbar({ t }) {
 
           {/* Enlaces de navegación */}
           <div className={`navbar-links ${menuOpen ? "menu-open" : ""}`}>
-            <NavItem href="/#tutorial">{t.nav.tutorial}</NavItem>
+            {/* <NavItem href="/#tutorial">{t.nav.tutorial}</NavItem> */}
             <NavItem href="/about">{t.nav.about}</NavItem>
             <NavItem href="/#credits">{t.nav.credits}</NavItem>
             <NavItem href="/#faq">{t.nav.faq}</NavItem>

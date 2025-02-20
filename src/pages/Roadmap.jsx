@@ -11,7 +11,7 @@ function Roadmap() {
   const navigate = useNavigate();
 
   const [fileUploaded, setFileUploaded] = useState(null);
-  const [previewFile, setPreviewFile] = useState(null);
+  const [previewFile, setPreviewFile] = useState(null);  
   const [helpModal, setHelpModal] = useState(false);
   const [base64, setBase64] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +26,7 @@ function Roadmap() {
   const [roadmapTopics, setRoadmapTopics] = useState({});
   const [relatedTopics, setRelatedTopics] = useState([]);
   const authToken = localStorage.getItem("token");
+
 
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -56,9 +57,9 @@ function Roadmap() {
   useEffect(() => {
     const storedModalState = localStorage.getItem('topicsModal');
     if (storedModalState === 'true') {
-      console.log("State:", location.state?.topicState);
+      console.log("State:", location.state?.topicState); 
       if (location.state?.topicState) {
-        setTopics(location.state.topicState.relatedTopics || []);
+        setTopics(location.state.topicState.relatedTopics || []); 
       }
       setTopicsModal(true);
       localStorage.removeItem('topicsModal');
@@ -70,7 +71,7 @@ function Roadmap() {
       console.log("Roadmap Topics:", roadmapTopics);
       setLoadingPage(false);
       setLoadingText("");
-      navigate('/generatedRoadmap', { state: { roadmapTopics, relatedTopics } });
+      navigate('/generatedRoadmap', {state: {roadmapTopics, relatedTopics}});
     }
   }, [roadmapTopics, relatedTopics, navigate]);
 
@@ -133,11 +134,11 @@ function Roadmap() {
 
       setPreviewCost("Costo: " + credits_cost.toLocaleString() + " Créditos");
       setUserCredits("Actualmente tienes " + user_credits.toLocaleString() + " créditos")
-
+      
       setCanUserPay(credits_cost > user_credits);
       if (credits_cost > user_credits) {
         toast.error('Creditos Insuficientes 😔');
-      }
+      } 
 
     } catch (error) {
       console.error('Error al obtener la vista previa de costos:', error);
@@ -158,23 +159,23 @@ function Roadmap() {
       toast.error("No has subido ningún archivo");
       return;
     }
-
+  
     setIsLoading(true);
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token"); 
 
     if (!token) {
       toast.error('No se encontró el token del usuario.');
       return;
     }
-
+  
     let email = '';
     try {
       if (token.split('.').length === 3) {
-        const decodedPayload = token.split('.')[1];
-        const decoded = atob(decodedPayload);
-        const parsed = JSON.parse(decoded);
-        email = parsed.sub;
+        const decodedPayload = token.split('.')[1]; 
+        const decoded = atob(decodedPayload); 
+        const parsed = JSON.parse(decoded); 
+        email = parsed.sub; 
       } else {
         toast.error('El token JWT no tiene un formato válido.');
         return;
@@ -184,7 +185,7 @@ function Roadmap() {
       toast.error('Error al decodificar el token');
       return;
     }
-
+  
     if (!email) {
       toast.error('No se pudo obtener el correo del usuario.');
       return;
@@ -193,7 +194,7 @@ function Roadmap() {
     setLoadingPage(true);
 
     setLoadingText("Buscando temas relacionados... 📈🧠📚");
-
+  
     const dataToSend = {
       fileName: fileUploaded.name,
       fileType: fileUploaded.type,
@@ -203,7 +204,7 @@ function Roadmap() {
     const formData = new FormData();
     formData.append("file", fileUploaded);
     formData.append("email", email);
-
+  
     try {
 
       const processPromise = fetch(`${import.meta.env.VITE_BACKEND_URL}/process-file`, {
@@ -214,7 +215,7 @@ function Roadmap() {
         },
         body: JSON.stringify(dataToSend),
       });
-
+  
       const analyzePromise = fetch(`${import.meta.env.VITE_BACKEND_URL}/analyze`, {
         method: "POST",
         headers: { Accept: "application/json" },
@@ -227,18 +228,18 @@ function Roadmap() {
           }
         })
         .catch((error) => console.error("Error al analizar el archivo:", error));
-
-
+  
+      
       const processResponse = await processPromise;
-
+  
       if (!processResponse.ok) {
         throw new Error("Error al enviar los datos al backend");
       }
-
+  
       const result = await processResponse.json();
       const parseResult = JSON.parse(result);
       setTopics(parseResult.themes);
-
+  
     } catch (error) {
       console.error("Error en el proceso:", error);
       toast.error("Error al procesar el archivo");
@@ -249,25 +250,15 @@ function Roadmap() {
     }
   };
 
-  const handleSelectedTopic = async (topic) => {
-    const authToken = localStorage.getItem("token");
-
-    if (!authToken) {
-      toast.error("No estás autenticado. Por favor, inicia sesión.");
-      navigate("/login");
-      return;
-    }
-
+  const handleSelectedTopic = async(topic) => {  
     setTopicsModal(false);
     setLoadingPage(true);
     setLoadingText("Estamos creando tu ruta de aprendizaje 😁");
-
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/generate-roadmap`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
         },
         body: JSON.stringify({ topic }),
       });
@@ -275,9 +266,7 @@ function Roadmap() {
       if (!response.ok) {
         throw new Error('Error al enviar el topic al backend');
       }
-
       const result = await response.json();
-      console.log("Response:", result);
       const parseResult = JSON.parse(result);
 
       const responseTopics = await fetch(`${import.meta.env.VITE_BACKEND_URL}/related-topics`, {
@@ -287,12 +276,12 @@ function Roadmap() {
         },
         body: JSON.stringify({ topic }),
       });
-
+      
       const resultTopics = await responseTopics.json();
       const parseResultTopics = JSON.parse(resultTopics);
 
       setRelatedTopics(parseResultTopics);
-      setRoadmapTopics(parseResult);
+      setRoadmapTopics(parseResult);    
     } catch (error) {
       console.error('Error al enviar al generar la ruta:', error);
       toast.error('No pudimos generar tu ruta de aprendizaje 😔');
@@ -336,15 +325,15 @@ function Roadmap() {
 
             {/* Contenedor izquierdo: Detalles del archivo */}
             <div className="file-details">
-              <h2>Detalles del Archivo</h2>
-              <p>Nombre: {fileUploaded.name}</p>
-              <p>Tamaño: {(fileUploaded.size / (1024 * 1024)).toFixed(2)} MB</p>
+                <h2>Detalles del Archivo</h2>
+                <p>Nombre: {fileUploaded.name}</p>
+                <p>Tamaño: {(fileUploaded.size / (1024 * 1024)).toFixed(2)} MB</p>
               <div className="credits-cost">
                 <h2>Costo de procesamiento</h2>
                 <p className="preview-cost-label">{previewCost}</p>
                 <p className="user-credits-label">{userCredits}</p>
               </div>
-
+              
 
               {/* Contenedor para los botones */}
               <div className="buttons-container">
@@ -370,7 +359,7 @@ function Roadmap() {
         <div className="preview-modal">
           <div className="preview-content">
             <video width="100%" height="100%" controls autoPlay muted>
-              <source src={anim_tutorial} type="video/mp4" />
+              <source src={anim_tutorial} type="video/mp4"/>
               Tu navegador no soporta la reproducción de videos.
             </video>
             <button onClick={() => setHelpModal(false)}>Cerrar</button>
@@ -380,14 +369,14 @@ function Roadmap() {
 
       {topicsModal && (
         <div className="topics-modal">
-          <h1>Temas detectados en tu archivo</h1>
-          <div className="topics-content">
-            {topics.map((topic, index) => (
-              <button className="topic-button" key={index} onClick={() => handleSelectedTopic(topic)}>
-                {topic}
-              </button>
-            ))}
-          </div>
+            <h1>Temas detectados en tu archivo</h1>
+              <div className="topics-content">
+                {topics.map((topic, index) => (
+                  <button className="topic-button" key={index} onClick={() => handleSelectedTopic(topic)}>
+                    {topic}
+                  </button>
+                ))}
+              </div>
         </div>
       )}
       {loadingPage && (

@@ -2,11 +2,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import ReactFlow, { Background, Controls, ControlButton } from 'react-flow-renderer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faTimes, faSearchPlus, faSearchMinus, faExpand, faLink } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faTimes, faSearchPlus, faSearchMinus, faExpand } from '@fortawesome/free-solid-svg-icons';
+import { faLink } from '@fortawesome/free-solid-svg-icons'; 
 import CustomNode from '../components/CustomNode';
 import '../styles/roadmap.css';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+
 
 function GeneratedRoadmap() {
   const location = useLocation();
@@ -24,8 +26,8 @@ function GeneratedRoadmap() {
   };
 
   const handleNewRoadmap = () => {
-    const topicState = relatedTopicsModal ? { relatedTopics } : {};
-    navigate('/roadmap', { state: { topicState } });
+    const topicState = relatedTopicsModal ? {relatedTopics} : {};
+    navigate('/roadmap', {state: {topicState}});
   };
 
   const closeModal = () => {
@@ -36,14 +38,14 @@ function GeneratedRoadmap() {
   const edges = [];
 
   let idCounter = 0;
-  const levelOffset = 600;
-  const nodeWidth = 500;
+  const levelOffset = 600; 
+  const nodeWidth = 500; 
 
   Object.keys(roadmapTopics).forEach((topicKey, topicIndex) => {
     const topicNode = {
       id: `topic-${idCounter++}`,
       data: { label: topicKey, color: '#ffca00' },
-      position: { x: 0, y: 500 },
+      position: { x: 0, y: 500},
       type: 'custom',
     };
     nodes.push(topicNode);
@@ -65,6 +67,7 @@ function GeneratedRoadmap() {
           data: { label: subSubtopic, color: '#FF92E6' },
           position: { x: nodeWidth * 2, y: topicIndex * levelOffset + subtopicIndex * levelOffset / 2 + index * 50 },
           type: 'custom',
+
         };
         nodes.push(subSubtopicNode);
         edges.push({ id: `e-${subtopicNode.id}-${subSubtopicNode.id}`, source: subtopicNode.id, target: subSubtopicNode.id });
@@ -74,7 +77,7 @@ function GeneratedRoadmap() {
 
   const handleDownload = async (format) => {
     const roadmapElement = roadmapRef.current;
-
+  
     if (format === 'json') {
       const jsonData = JSON.stringify(roadmapTopics, null, 2);
       const blob = new Blob([jsonData], { type: 'application/json' });
@@ -91,16 +94,16 @@ function GeneratedRoadmap() {
         reactFlowInstance.current.fitView({ padding: 0.2, duration: 500 });
         await new Promise(resolve => setTimeout(resolve, 1000));
         const canvas = await html2canvas(roadmapElement, {
-          scale: 2,
+          scale: 2, 
           useCORS: true,
           logging: true,
           width: roadmapElement.scrollWidth,
           height: roadmapElement.scrollHeight,
           allowTaint: true,
         });
-
+  
         const dataUrl = canvas.toDataURL('image/png');
-
+  
         if (format === 'image') {
           const a = document.createElement('a');
           a.href = dataUrl;
@@ -121,12 +124,11 @@ function GeneratedRoadmap() {
       }
     }
   };
-
   const onInit = (instance) => {
     reactFlowInstance.current = instance;
     setTimeout(() => {
       instance.fitView({ padding: 0.2, duration: 500 });
-    }, 500);
+    }, 500); 
   };
 
   const handleZoomIn = () => {
@@ -144,41 +146,6 @@ function GeneratedRoadmap() {
   const handleFitView = () => {
     if (reactFlowInstance.current) {
       reactFlowInstance.current.fitView({ padding: 0.2, duration: 500 });
-    }
-  };
-
-  const saveImageToDB = async (base64Image) => {
-    const authToken = localStorage.getItem("token");
-
-    if (!roadmapTopics || Object.keys(roadmapTopics).length === 0) {
-      console.error("No hay datos del roadmap para guardar.");
-      return;
-    }
-
-    const topic = Object.keys(roadmapTopics)[0];
-    const roadmapData = JSON.stringify(roadmapTopics);
-
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/save-roadmap-image`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
-        },
-        body: JSON.stringify({
-          topic,
-          roadmap_data: roadmapData,
-          image_base64: base64Image,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al guardar la imagen en la base de datos');
-      }
-
-      console.log('Roadmap guardado correctamente');
-    } catch (error) {
-      console.error('Error al enviar el roadmap al backend:', error);
     }
   };
 
@@ -258,7 +225,7 @@ function GeneratedRoadmap() {
             </button>
             <button className="control-button" onClick={handleShowModal}>
               <FontAwesomeIcon icon={faLink} />
-            </button>
+          </button>
           </div>
         </>
       )}
@@ -275,6 +242,22 @@ function GeneratedRoadmap() {
             <div className="modal-buttons">
               <button onClick={() => handleNewRoadmap()} className="modal-button">Sí 😃</button>
               <button onClick={closeModal} className="modal-button">No 🙁</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {relatedTopicsModal && (
+        <div className="modal-overlay" onClick={closeModal}> 
+          <div className="modal" onClick={(e) => e.stopPropagation()}> 
+            <h1 className='modal-title'>¿Quieres crear una ruta de un tema relacionado? 🧐</h1>
+            <ul>
+              {relatedTopics.map((topic, index) => (
+                <li key={index}>{topic}</li>
+              ))}
+            </ul>
+            <div className="modal-buttons">
+              <button onClick={() => handleNewRoadmap()} className='modal-button'>Sí 😃</button>
+              <button onClick={closeModal} className='modal-button'>No 🙁</button> 
             </div>
           </div>
         </div>

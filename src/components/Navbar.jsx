@@ -10,7 +10,7 @@ Navbar.defaultProps = {
   t: {
     nav: {
       // tutorial: "Tutorial",
-      about: "Quienes somos",
+      about: "Quiénes somos",
       credits: "Créditos",
       faq: "Preguntas frecuentes",
       support: "Soporte",

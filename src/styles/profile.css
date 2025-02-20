@@ -1,3 +1,4 @@
+/* Contenedor principal */
 .profile-container {
   display: flex;
   flex-direction: column;
@@ -10,7 +11,7 @@
   position: relative;
 }
 
-/* Título fuera de la caja */
+/* Título de la página */
 .profile-title {
   color: #fff;
   font-size: 24px;
@@ -35,7 +36,7 @@
   gap: 20px;
 }
 
-/* Sección de la imagen */
+/* Imagen de perfil */
 .profile-image {
   display: flex;
   align-items: center;
@@ -49,7 +50,7 @@
   color: white;
 }
 
-/* Sección de campos de información */
+/* Campos de información del perfil */
 .profile-fields {
   display: flex;
   flex-direction: column;
@@ -77,30 +78,27 @@
   margin-top: 20px;
 }
 
-/* Estilos para los botones */
-button {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background: #835bfc;
+/* Botón de modificar datos */
+.edit-button {
+  background: var(--hover);
   color: white;
   border: none;
   border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
   font-weight: 500;
   transition: all 0.3s ease;
-  font-size: 1rem;
-  width: auto;
-  text-align: center;
 }
 
-button:hover {
-  background: #6b4ad4;
+.edit-button:hover {
+  background: var(--button-hover);
 }
 
-button:active {
+.edit-button:active {
   background: #5137b0;
 }
 
-/* Estilos específicos para el botón de eliminar */
+/* Botón de eliminar cuenta */
 .delete-button {
   background: #ff4d4d;
   color: white;
@@ -120,76 +118,104 @@ button:active {
   background: #cc0000;
 }
 
-/* Estilos de los orbes */
-.light-orb {
-  position: absolute;
-  width: 150px;
+/* Sección de Roadmaps */
+.roadmaps-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: rgba(30, 31, 38, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  width: 100%;
+  max-width: 800px;
+}
+
+.roadmaps-section h3 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  opacity: 0.9;
+}
+
+/* Grid de Roadmaps */
+.roadmaps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+/* Card de Roadmap */
+.roadmap-card {
+  background: rgba(40, 41, 49, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.roadmap-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Encabezado de la Card */
+.roadmap-card-header {
+  padding: 1rem;
+  background: rgba(50, 51, 59, 0.95);
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  width: 100%;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Cuerpo de la Card */
+.roadmap-card-body {
+  padding: 1rem;
+  text-align: center;
+  color: #ddd;
+  font-size: 0.9rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Imagen dentro de la Card */
+.roadmap-image {
+  width: 100%;
   height: 150px;
-  background: radial-gradient(
-    circle,
-    rgba(165, 113, 255, 0.599) 0%,
-    rgba(165, 113, 255, 0.1) 40%,
-    transparent 70%
-  );
-  border-radius: 50%;
-  filter: blur(20px);
-  opacity: 0;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
-@keyframes pulse {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-.light-orb:nth-child(1) {
-  animation: pulse 4s infinite ease-in-out;
-  top: 10%;
-  left: 10%;
-}
-.light-orb:nth-child(2) {
-  animation: pulse 5s infinite ease-in-out;
-  top: 60%;
-  left: 80%;
-}
-.light-orb:nth-child(3) {
-  animation: pulse 6s infinite ease-in-out;
-  top: 70%;
-  left: 20%;
-}
-.light-orb:nth-child(4) {
-  animation: pulse 6s infinite ease-in-out;
-  top: 70%;
-  left: 40%;
-}
-.light-orb:nth-child(5) {
-  animation: pulse 4.5s infinite ease-in-out;
-  top: 10%;
-  left: 80%;
-}
-
-/* Estilos para el botón de modificar datos */
-.edit-button {
+/* Botón dentro de la Card */
+.roadmap-button {
   background: var(--hover);
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
-.edit-button:hover {
+.roadmap-button:hover {
   background: var(--button-hover);
 }
 
-.edit-button:active {
-  background: #5137b0;
+/* Mensaje cuando no hay roadmaps */
+.roadmaps-section p {
+  color: #ddd;
+  text-align: center;
+  font-size: 1rem;
 }

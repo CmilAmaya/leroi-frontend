@@ -6,13 +6,16 @@ import EditModal from "../components/EditModal";
 import "../styles/profile.css";
 import "../styles/modal.css";
 import "../styles/editmodal.css";
+import { useNavigate } from 'react-router-dom'; 
 
 function Profile() {
   const [userData, setUserData] = useState(null);
+  const [userRoadmaps, setUserRoadmaps] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const authToken = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -22,7 +25,8 @@ function Profile() {
       }
 
       try {
-        const response = await fetch(`${backendUrl}/user-profile`, {
+        // Obtener los datos del usuario
+        const userResponse = await fetch(`${backendUrl}/user-profile`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -30,12 +34,29 @@ function Profile() {
           },
         });
 
-        if (!response.ok) {
+        if (!userResponse.ok) {
           throw new Error("Error al obtener los datos del usuario");
         }
 
-        const data = await response.json();
-        setUserData(data.data);
+        const userData = await userResponse.json();
+        setUserData(userData.data);
+
+        // Obtener los roadmaps del usuario
+        const roadmapsResponse = await fetch(`${backendUrl}/user-roadmaps`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!roadmapsResponse.ok) {
+          throw new Error("Error al obtener los roadmaps del usuario");
+        }
+
+        const roadmapsData = await roadmapsResponse.json();
+        console.log("Roadmaps del usuario:", roadmapsData.data);
+        setUserRoadmaps(roadmapsData.data);
       } catch (error) {
         console.error(error);
         window.location.href = "/login";
@@ -120,11 +141,15 @@ function Profile() {
       alert(error.message);
     }
   };
-  
+
+  const handleRoadmapClick = (roadmap) => {
+    navigate('/generatedRoadmap', { state: { roadmapTopics: JSON.parse(roadmap.prompt) } });
+  };
 
   if (!userData) {
     return <div>Cargando...</div>;
   }
+  
 
   return (
     <div className="profile-container">
@@ -157,7 +182,6 @@ function Profile() {
           <div className="profile-field">
             <strong>Roadmaps Creados:</strong> {userData.roadmapsCreated}
           </div>
-          
         </div>
 
         <div className="profile-footer">
@@ -178,9 +202,40 @@ function Profile() {
         </div>
       </div>
 
+      {/* Sección de Roadmaps */}
+      <div className="roadmaps-section">
+        <h3>Roadmaps Creados</h3>
+        {userRoadmaps.length > 0 ? (
+          <div className="roadmaps-grid">
+            {userRoadmaps.map((roadmap) => (
+              <div
+                key={roadmap.id_roadmap}
+                className="roadmap-card"
+                onClick={() => handleRoadmapClick(roadmap)}  
+              >
+                <div className="roadmap-card-header">
+                  <strong>{roadmap.nombre}</strong>
+                </div>
+                <div className="roadmap-card-body">
+                  {/* Mostrar la imagen */}
+                    <img
+                      src={roadmap.image}
+                      alt={`Imagen de ${roadmap.nombre}`}
+                      className="roadmap-image"
+                    />
+                  <p>Creado el: {new Date(roadmap.fecha_creacion).toLocaleDateString()}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No has creado ningún roadmap aún.</p>
+        )}
+      </div>
+
       {showConfirmModal && (
         <ConfirmModal
-          message="¿Estás seguro de que deseas borrar tu cuenta? Esta acción no se puede deshacer."
+          message="¿Estás seguro de que deseas borrar tu cuenta? Esta acción no se puede deshacer, y perderás el saldo de créditos que tengas en la cuenta."
           onConfirm={confirmDelete}
           onCancel={cancelDelete}
         />

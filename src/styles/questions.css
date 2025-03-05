@@ -1,124 +1,215 @@
+
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: var(--background);
-    color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--background);
+  color: white;
+  padding: 10px;
 }
 
+/* Tarjeta principal */
 .card {
-    background: rgba(30, 31, 38, 0.95);
-    border-radius: 16px;
-    width: 400px;
-    padding: 20px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(4px);
-    position: relative;
-    z-index: 1;
-  }
+  background: rgba(30, 31, 38, 0.95);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  position: relative;
+  z-index: 1;
+  padding-top: 35px;
+}
 
 .card h2 {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
 }
 
+/* Contenedor de botones */
 .buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
 }
 
+/* Botones generales */
 button {
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    border: none;
-    cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.95);
 }
 
 button.true {
-    background-color: blue;
+  background-color: blue;
 }
 
 button.false {
-    background-color: red;
+  background-color: red;
 }
 
 button.correct {
-    background-color: green;
+  background-color: green;
 }
 
 button.incorrect {
-    background-color: red;
+  background-color: red;
 }
 
 button:disabled {
-    cursor: not-allowed;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
+/* Puntuación */
 .score {
-    text-align: center;
-    margin-top: 20px;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2rem;
 }
 
+/* Orbes de luz */
 .light-orb {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(circle,
-        rgba(165, 113, 255, 0.599) 0%,
-        rgba(165, 113, 255, 0.1) 40%,
-        transparent 70%);
-    border-radius: 50%;
-    filter: blur(20px);
-    opacity: 0;
-  }
-  
-  @keyframes pulse {
-    0% {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle,
+      rgba(165, 113, 255, 0.599) 0%,
+      rgba(165, 113, 255, 0.1) 40%,
+      transparent 70%);
+  border-radius: 50%;
+  filter: blur(20px);
+  opacity: 0;
+}
+
+@keyframes pulse {
+  0% {
       opacity: 0;
-    }
-  
-    50% {
+  }
+  50% {
       opacity: 0.5;
-    }
-  
-    100% {
+  }
+  100% {
       opacity: 0;
-    }
   }
-  
-  /* Orbes estáticos con diferentes tiempos de parpadeo */
-  .light-orb:nth-child(1) {
-    animation: pulse 4s infinite ease-in-out;
-    top: 10%;
-    left: 10%;
+}
+
+/* Orbes estáticos con diferentes tiempos de parpadeo */
+.light-orb:nth-child(1) {
+  animation: pulse 4s infinite ease-in-out;
+  top: 10%;
+  left: 10%;
+}
+
+.light-orb:nth-child(2) {
+  animation: pulse 5s infinite ease-in-out;
+  top: 60%;
+  left: 80%;
+}
+
+.light-orb:nth-child(3) {
+  animation: pulse 6s infinite ease-in-out;
+  top: 70%;
+  left: 20%;
+}
+
+.light-orb:nth-child(4) {
+  animation: pulse 6s infinite ease-in-out;
+  top: 70%;
+  left: 40%;
+}
+
+.light-orb:nth-child(5) {
+  animation: pulse 4.5s infinite ease-in-out;
+  top: 10%;
+  left: 80%;
+}
+
+/* Botón de cierre */
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 6px;
+  background-color: red;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-button:hover {
+  background-color: darkred;
+}
+
+/* RESPONSIVE DESIGN */
+
+/* Para pantallas menores a 600px (móviles) */
+@media (max-width: 600px) {
+  .card {
+      width: 95%;
+      padding: 15px;
+      padding-top: 38px;
   }
-  
-  .light-orb:nth-child(2) {
-    animation: pulse 5s infinite ease-in-out;
-    top: 60%;
-    left: 80%;
+
+  .card h2 {
+      font-size: 1.2rem;
   }
-  
-  .light-orb:nth-child(3) {
-    animation: pulse 6s infinite ease-in-out;
-    top: 70%;
-    left: 20%;
+
+  .buttons {
+      flex-direction: column;
+      gap: 10px;
   }
-  
-  .light-orb:nth-child(4) {
-    animation: pulse 6s infinite ease-in-out;
-    top: 70%;
-    left: 40%;
+
+  button {
+      width: 100%;
+      font-size: 1rem;
+      padding: 12px;
   }
-  
-  .light-orb:nth-child(5) {
-    animation: pulse 4.5s infinite ease-in-out;
-    top: 10%;
-    left: 80%;
+
+  .score {
+      font-size: 1rem;
   }
+}
+
+/* Para pantallas menores a 400px */
+@media (max-width: 400px) {
+  .card {
+      padding: 10px;
+      padding-top: 40px;
+  }
+
+  .card h2 {
+      font-size: 1rem;
+  }
+
+  button {
+      font-size: 0.9rem;
+      padding: 10px;
+  }
+
+  .close-button {
+      width: 25px;
+      height: 25px;
+      font-size: 0.8rem;
+  }
+}

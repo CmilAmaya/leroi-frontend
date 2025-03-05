@@ -16,6 +16,8 @@ import ResetPassword from './pages/ResetPassword';
 import About from './pages/About';
 import Pricing from './pages/Pricing';
 import RoadmapsSection from './pages/roadmapsCreados';
+import Questions from './pages/Questions';
+import Blog from './pages/Blog';
 
 function App() {
   return (
@@ -44,6 +46,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/blog" element={<Blog />} />
+            
 
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
@@ -56,6 +60,7 @@ function App() {
             <Route path="/pricing" element={<ProtectedRoute><Pricing /></ProtectedRoute>} />
 
             <Route path="/roadmapsCreados" element={<ProtectedRoute><RoadmapsSection /></ProtectedRoute>} />
+            <Route path='/questions' element={<ProtectedRoute><Questions /></ProtectedRoute>} />
           </Routes>
         </div>
       </Router>

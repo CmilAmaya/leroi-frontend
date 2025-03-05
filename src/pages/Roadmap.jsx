@@ -25,6 +25,7 @@ function Roadmap() {
   const [loadingPage, setLoadingPage] = useState(false);
   const [loadingText, setLoadingText] = useState("");
   const [roadmapTopics, setRoadmapTopics] = useState({});
+  const [roadmapInfo, setRoadmapInfo] = useState({});
   const [relatedTopics, setRelatedTopics] = useState([]);
   const authToken = localStorage.getItem("token");
 
@@ -71,7 +72,7 @@ function Roadmap() {
       console.log("Roadmap Topics:", roadmapTopics);
       setLoadingPage(false);
       setLoadingText("");
-      navigate('/generatedRoadmap', {state: {roadmapTopics, relatedTopics}});
+      navigate('/generatedRoadmap', {state: {roadmapTopics, relatedTopics, roadmapInfo}});
     }
   }, [roadmapTopics, relatedTopics, navigate]);
 
@@ -302,8 +303,10 @@ const handleDrop = (e) => {
       }
       
       const result = await response.json();
-      console.log("Response:", result);
-      const parseResult = JSON.parse(result);
+      console.log("Response:", result.roadmap);
+      const parseResult = JSON.parse(result.roadmap);
+      const parseSecondResult = JSON.parse(result.extra_info)
+      console.log("VAMO A VERRRR", parseSecondResult);
 
       const responseTopics = await fetch(`${import.meta.env.VITE_BACKEND_URL}/related-topics`, {
         method: 'POST',
@@ -318,6 +321,7 @@ const handleDrop = (e) => {
 
       setRelatedTopics(parseResultTopics);
       setRoadmapTopics(parseResult);    
+      setRoadmapInfo(parseSecondResult);
     } catch (error) {
       console.error('Error al enviar al generar la ruta:', error);
       toast.error('No pudimos generar tu ruta de aprendizaje 😔');

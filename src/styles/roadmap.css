@@ -360,9 +360,6 @@
   transform: scale(1.05);
 }
 
-
-
-
 .help-icon {
   position: fixed;
   bottom: 20px;
@@ -583,6 +580,23 @@
   transform: translateY(0);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.tooltip{
+  position: absolute; 
+  background:  white;
+  color: #000;
+  border: 1px solid  #835BFCCC; 
+  border-radius: 5px; 
+  padding: 10px;
+  max-width: 250px;
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+  white-space: normal; 
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); 
+  font-size: 14px; 
+  z-index: 1000; 
+}
+
 
 /* Ajustes para pantallas menores a 768px */
 @media (max-width: 768px) {

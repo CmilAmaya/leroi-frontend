@@ -112,9 +112,16 @@ function Home() {
       <section className="features">
         <h2>
           <Fade delay={200} cascade damping={0.02}>
-            ¿Quién es Leroi?
+            Conoce lo que es LEROI
           </Fade>
         </h2>
+        <p className="definition">
+          Leroi es una plataforma de aprendiz diseñada para optimizar la planificación y organización del estudio. 
+          Automatiza la creación de planes de estudio, reduciendo el tiempo dedicado a estructurar qué y cómo aprender. 
+          Además, identifica y jerarquiza subtemas para proporcionar un camino lógico y progresivo en el aprendizaje. 
+          Su capacidad de personalización permite a los usuarios cargar sus propios documentos, como libros y apuntes, 
+          generando rutas de estudio adaptadas a su contenido específico.
+        </p>
         <div className="features-container">
           <div className="feature-card">
             <div className="feature-icon">

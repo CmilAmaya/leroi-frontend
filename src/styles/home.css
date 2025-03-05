@@ -269,6 +269,117 @@
   display: block; 
 }
 
+.blog-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  text-align: center;
+}
+
+.blog-container h1 {
+  font-size: 2rem; 
+  color: var(--primary);
+}
+
+.iframe-container {
+  width: 70%;
+  height: 60%;
+  margin-top: 20px;
+  border: 2px solid #ccc; 
+  border-radius: 10px; 
+  overflow: hidden; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.iframe {
+  width: 100%;
+  height: 100%;
+  border: none; 
+}
+
+.definition{
+  margin: 3rem;
+  font-size: 1.2rem !important;
+}
+
+.light-orb {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle,
+      rgba(165, 113, 255, 0.599) 0%,
+      rgba(165, 113, 255, 0.1) 40%,
+      transparent 70%);
+  border-radius: 50%;
+  filter: blur(20px);
+  opacity: 0;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Orbes estáticos con diferentes tiempos de parpadeo */
+.light-orb:nth-child(1) {
+  animation: pulse 4s infinite ease-in-out;
+  top: 10%;
+  left: 10%;
+}
+
+.light-orb:nth-child(2) {
+  animation: pulse 5s infinite ease-in-out;
+  top: 10%;
+  left: 80%;
+}
+
+.light-orb:nth-child(3) {
+  animation: pulse 6s infinite ease-in-out;
+  top: 30%;
+  left: 20%;
+}
+
+.light-orb:nth-child(4) {
+  animation: pulse 6s infinite ease-in-out;
+  top: 60%;
+  left: 10%;
+}
+
+.light-orb:nth-child(5) {
+  animation: pulse 4.5s infinite ease-in-out;
+  top: 10%;
+  left: 30%;
+}
+
+.light-orb:nth-child(6) {
+  animation: pulse 4.5s infinite ease-in-out;
+  top: 10%;
+  left: 40%;
+}
+
+.light-orb:nth-child(7) {
+  animation: pulse 4.5s infinite ease-in-out;
+  top: 10%;
+  left: 10%;
+}
+
+.light-orb:nth-child(8) {
+  animation: pulse 4.5s infinite ease-in-out;
+  top: 50%;
+  left: 5%;
+}
+
 /* Media Queries para pantallas pequeñas */
 @media (max-width: 768px) {
   .hook-gif {

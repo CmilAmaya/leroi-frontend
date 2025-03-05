@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import '../styles/questions.css';
+import { useLocation, useNavigate } from "react-router-dom";
+import "../styles/questions.css";
 
 function Questions() {
     const location = useLocation();
+    const navigate = useNavigate();
     const { generatedQuestions } = location.state || {};
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selected, setSelected] = useState(null);
@@ -21,13 +22,21 @@ function Questions() {
 
     return (
         <div className="container">
-            <div className="light-orb" style={{ '--delay': '0s' }}></div>
-            <div className="light-orb" style={{ '--delay': '1s' }}></div>
-            <div className="light-orb" style={{ '--delay': '2s' }}></div>
-            <div className="light-orb" style={{ '--delay': '3s' }}></div>
-            <div className="light-orb" style={{ '--delay': '4s' }}></div>
+            <div className="light-orb" style={{ "--delay": "0s" }}></div>
+            <div className="light-orb" style={{ "--delay": "1s" }}></div>
+            <div className="light-orb" style={{ "--delay": "2s" }}></div>
+            <div className="light-orb" style={{ "--delay": "3s" }}></div>
+            <div className="light-orb" style={{ "--delay": "4s" }}></div>
 
             <div className="card">
+                {/* Botón de regreso */}
+                <button 
+                    className="close-button" 
+                    onClick={() => navigate("/roadmap")}
+                >
+                    ✖
+                </button>
+                
                 <h2>{generatedQuestions[currentIndex].enunciado}</h2>
                 <div className="buttons">
                     <button
